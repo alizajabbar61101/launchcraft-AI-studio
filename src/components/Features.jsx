@@ -37,13 +37,13 @@ text:"Chat with your AI product strategist."
 
 return(
 
-<section className="features">
+<section className="features" id="features">
 
-
+<div className="section-header">
 <h2>
 Powerful AI Product Tools
 </h2>
-
+</div>
 
 <div className="feature-grid">
 
@@ -68,6 +68,7 @@ features.map((item,index)=>(
 
 
 </div>
+
 
 
 </section>
