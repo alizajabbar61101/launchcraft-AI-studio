@@ -1018,3 +1018,91 @@ transform:translateY(0);
   background-repeat: no-repeat;
   background-color: var(--bg);
 }
+@media (max-width: 620px) {
+  /* Trusted-by strip */
+  .trusted {
+    padding: 36px 20px;
+  }
+  .company-list {
+    gap: 28px;
+  }
+  .company-list span {
+    font-size: 15px;
+  }
+
+  /* CTA section */
+  .cta {
+    margin: 24px 16px 60px;
+    padding: 48px 24px;
+  }
+  .cta h2 {
+    font-size: 26px;
+  }
+  .cta p {
+    font-size: 14.5px;
+    margin-bottom: 24px;
+  }
+  .cta-btn {
+    padding: 14px 26px;
+    font-size: 14px;
+  }
+
+  /* Pricing cards */
+  .pricing-card {
+    padding: 28px 22px;
+  }
+  .plan-price {
+    font-size: 32px;
+  }
+  .pricing-card.highlighted {
+    transform: none;
+  }
+
+  /* How It Works timeline */
+  .step-marker {
+    width: 46px;
+    height: 46px;
+    font-size: 17px;
+  }
+  .timeline::before {
+    left: 22px;
+  }
+  .step-body h3 {
+    font-size: 17px;
+  }
+  .step-body p {
+    font-size: 14px;
+  }
+
+  /* Section headers */
+  .section-header h2 {
+    font-size: 28px;
+  }
+  .section-header p {
+    font-size: 14.5px;
+  }
+
+  /* Feature cards */
+  .feature-card {
+    padding: 26px 22px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-content h1 {
+    font-size: 30px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+  .cta h2 {
+    font-size: 22px;
+  }
+  .logo-mark {
+    font-size: 18px;
+  }
+  .glass-header {
+    padding: 12px 18px;
+  }
+}
