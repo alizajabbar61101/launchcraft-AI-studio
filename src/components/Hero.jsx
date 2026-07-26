@@ -1,13 +1,6 @@
-import heroBackground from "../assets/hero-background.svg";
-
 function Hero() {
   return (
     <section className="hero" id="home">
-      <div
-        className="hero-bg"
-        style={{ backgroundImage: `url(${heroBackground})` }}
-      ></div>
-
       <div className="hero-inner">
         <div className="hero-content">
           <span className="eyebrow">AI Product Intelligence</span>
