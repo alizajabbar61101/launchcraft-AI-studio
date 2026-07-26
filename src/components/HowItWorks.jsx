@@ -1,4 +1,4 @@
-onst steps = [
+const steps = [
   {
     number: "1",
     title: "Describe Your Idea",

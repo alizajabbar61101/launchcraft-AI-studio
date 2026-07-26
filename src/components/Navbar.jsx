@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
 
@@ -26,47 +27,95 @@ function Navbar() {
         <header className="glass-header">
 
             {/* Logo */}
-            <div className="logo-mark">
+            <Link to="/" className="logo-mark">
+
                 <span className="logo-dot"></span>
+
                 LaunchCraft
+
                 <span className="logo-ai">AI</span>
-            </div>
+
+            </Link>
 
             {/* Desktop Navigation */}
             <nav className="desktop-nav">
+
                 {links.map((link) => (
-                    <a key={link.name} href={link.path}>
+
+                    <a
+                        key={link.name}
+                        href={link.path}
+                    >
                         {link.name}
                     </a>
+
                 ))}
+
             </nav>
 
-            {/* Action Buttons */}
+            {/* Desktop Buttons */}
             <div className="nav-buttons">
-                <button className="login-btn">Login</button>
-                <button className="start-btn">Get Started</button>
+
+                <Link to="/login">
+                    <button className="login-btn">
+                        Login
+                    </button>
+                </Link>
+
+                <Link to="/signup">
+                    <button className="start-btn">
+                        Get Started
+                    </button>
+                </Link>
+
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Hamburger */}
             <button
                 className={`hamburger ${isOpen ? "active" : ""}`}
                 onClick={() => setIsOpen(!isOpen)}
+                aria-label="Toggle Menu"
             >
+
                 <span></span>
                 <span></span>
                 <span></span>
+
             </button>
 
-            {/* Mobile Drawer */}
+            {/* Mobile Menu */}
             <div className={`mobile-menu ${isOpen ? "show" : ""}`}>
+
                 {links.map((link) => (
-                    <a key={link.name} href={link.path} onClick={closeMenu}>
+
+                    <a
+                        key={link.name}
+                        href={link.path}
+                        onClick={closeMenu}
+                    >
                         {link.name}
                     </a>
+
                 ))}
 
-                <button className="login-btn">Login</button>
-                <button className="start-btn">Get Started</button>
+                <Link
+                    to="/login"
+                    onClick={closeMenu}
+                >
+                    <button className="Login-btn">
+                        Login
+                    </button>
+                </Link>
+
+                <Link
+                    to="/signup"
+                    onClick={closeMenu}
+                >
+                    <button className="start-btn">
+                        Get Started
+                    </button>
+                </Link>
+
             </div>
 
         </header>

@@ -1016,5 +1016,5 @@ transform:translateY(0);
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  background-color: #0B0D1F; /* fallback matches the new dark SVG base */
+  background-color: var(--bg);
 }

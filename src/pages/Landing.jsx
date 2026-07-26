@@ -1,24 +1,40 @@
-import "../styles/landing.css";
+import heroBackground from "../assets/hero-background.svg";
 
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import Trusted from "../components/Trusted";
+import Features from "../components/Features";
+import HowItWorks from "../components/HowItWorks";
+import CTA from "../components/CTA";
+import Footer from "../components/Footer";
 
+import "../styles/landing.css";
 
-function Landing(){
+function Landing() {
+  return (
+    <div className="app">
 
-return(
+      <div
+        className="global-bg"
+        style={{ backgroundImage: `url(${heroBackground})` }}
+      ></div>
 
-<div className="app">
+      <Navbar />
 
-<Navbar />
+      <Hero />
 
-<Hero />
+      <Trusted />
 
-</div>
+      <Features />
 
-)
+      <HowItWorks />
 
+      <CTA />
+
+      <Footer />
+
+    </div>
+  );
 }
-
 
 export default Landing;
