@@ -3,8 +3,8 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 import Workspace from "./pages/Workspace";
 
 function App() {

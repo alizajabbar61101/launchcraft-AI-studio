@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 import { useAuth } from "../context/AuthContext";
 import "../styles/workspace.css";
 
@@ -36,52 +37,78 @@ function Workspace() {
     setMessages((prev) => [...prev, { id: prev.length + 1, ...msg }]);
   };
 
-  const handleSend = (textOverride) => {
-    const text = (textOverride ?? input).trim();
-    if (!text) return;
+  const handleSend = async (textOverride) => {
+  const text = (textOverride ?? input).trim();
+  if (!text) return;
 
-    pushMessage({ sender: "user", type: "text", text });
-    setInput("");
+  pushMessage({ sender: "user", type: "text", text });
+  setInput("");
+
+  // Stage 0: collect idea
+  if (stage === 0) {
+    setIdeaText(text);
+    pushMessage({
+      sender: "bot",
+      type: "text",
+      text: `Got it — "${text}" sounds interesting. Who is the main audience for this product?`,
+    });
+
+    setStage(1);
+    return;
+  }
+
+  // Stage 1: send idea to Gemini backend
+  if (stage === 1) {
     setIsTyping(true);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/analyze",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idea: `${ideaText}. Target audience: ${text}`,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
       setIsTyping(false);
 
-      if (stage === 0) {
-        setIdeaText(text);
+      if (data.success) {
         pushMessage({
           sender: "bot",
           type: "text",
-          text: `Got it — "${text}" is a strong concept. Who is the main audience for this product?`,
+          text: data.result,
         });
-        setStage(1);
-      } else if (stage === 1) {
+      } else {
         pushMessage({
           sender: "bot",
-          type: "blueprint",
-          content: {
-            title: ideaText,
-            opportunity:
-              "There's clear demand in this space, with room to differentiate through a focused first release.",
-            features: [
-              "Onboarding & profile setup",
-              "Core action flow (the app's main feature)",
-              "Progress tracking dashboard",
-              "Notifications & reminders",
-            ],
-            stack: ["React", "Node.js", "PostgreSQL", "Supabase Auth"],
-            roadmap: [
-              { phase: "Discovery", weeks: "Week 1" },
-              { phase: "MVP Build", weeks: "Weeks 2-5" },
-              { phase: "Beta Testing", weeks: "Week 6" },
-              { phase: "Launch", weeks: "Week 8" },
-            ],
-          },
+          type: "text",
+          text: "Sorry, I could not analyze this idea.",
         });
-        setStage(2);
       }
-    }, 1300);
-  };
+
+    } catch (error) {
+      console.error(error);
+
+      setIsTyping(false);
+
+      pushMessage({
+        sender: "bot",
+        type: "text",
+        text:
+          "Unable to connect with LaunchCraft AI backend. Make sure the server is running.",
+      });
+    }
+
+    setStage(2);
+  }
+};
 
   const handleReset = () => {
     setMessages([
@@ -118,7 +145,11 @@ function Workspace() {
         <div className="chat-messages">
           {messages.map((msg) => (
             <div key={msg.id} className={`message ${msg.sender}`}>
-              {msg.type === "text" && <div className="bubble">{msg.text}</div>}
+              {msg.type === "text" && (
+  <div className="bubble markdown-content">
+    <ReactMarkdown>{msg.text}</ReactMarkdown>
+  </div>
+)}
 
               {msg.type === "blueprint" && (
                 <div className="blueprint-card">
