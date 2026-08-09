@@ -141,6 +141,63 @@ Use headings, bullet points and tables.
 
   }
 });
+// AI Chat Route
+app.post("/api/chat", async (req, res) => {
+  try {
+    const { message, context } = req.body;
+
+    if (!message) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a message.",
+      });
+    }
+
+    const prompt = `
+You are LaunchCraft AI, an expert startup product strategist.
+
+The user is working on a product and wants to continue discussing it.
+
+Previous conversation/context:
+${context || "No previous context available."}
+
+User's latest message:
+"${message}"
+
+Respond naturally and helpfully.
+
+Your job is to:
+- Understand the user's product idea.
+- Give practical product advice.
+- Suggest features when appropriate.
+- Discuss UX, technology, monetization, validation, MVP scope, roadmap, and challenges when relevant.
+- Ask a useful follow-up question when it helps move the product forward.
+- Do not repeat the entire product analysis unless the user asks for it.
+- Keep the response structured and readable.
+- Use Markdown when useful.
+`;
+
+    const response = await ai.models.generateContent({
+      model: "models/gemini-3.1-flash-lite",
+      contents: prompt,
+    });
+
+    res.json({
+      success: true,
+      result: response.text,
+    });
+
+  } catch (error) {
+    console.error("Gemini Chat Error:", error);
+    console.error("Error Message:", error.message);
+
+    res.status(500).json({
+      success: false,
+      message: "Unable to process chat message.",
+      error: error.message,
+    });
+  }
+});
 
 
 const PORT = process.env.PORT || 3000;

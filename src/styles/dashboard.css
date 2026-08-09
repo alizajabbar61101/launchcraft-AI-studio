@@ -1,0 +1,156 @@
+/* =========================================
+   DASHBOARD PAGE CONTENT
+   (background + sidebar spacing now live in
+   DashboardLayout.css — this file only styles
+   what's inside <Outlet />)
+========================================= */
+
+.dashboard-welcome {
+  margin-top: 5px;
+  margin-bottom: 45px;
+}
+
+.dashboard-title {
+  margin: 0 0 12px;
+  font-size: 44px;
+  line-height: 1.15;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.dashboard-subtitle {
+  margin: 0;
+  font-size: 17px;
+  color: var(--text-secondary);
+}
+
+/* SECTION HEADER (reused above the project grid) */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 20px;
+}
+
+.section-header h2 {
+  margin: 0 0 6px;
+  font-size: 24px;
+  color: var(--text-primary);
+}
+
+.section-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* NEW PROJECT BUTTON */
+
+.new-project-btn {
+  background: var(--gradient-primary);
+  padding: 14px 24px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-glow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  white-space: nowrap;
+}
+
+.new-project-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow-hover);
+}
+
+/* PROJECT GRID */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+/* EMPTY STATE (extends .glass-card from design-tokens.css) */
+
+.empty-dashboard {
+  padding: 70px 30px;
+  text-align: center;
+  border-style: solid;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(124, 92, 255, 0.10), transparent 60%),
+    var(--bg-elevated);
+}
+
+.empty-dashboard::before {
+  content: "+";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 22px;
+  border-radius: 16px;
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-glow);
+  color: var(--text-primary);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.empty-dashboard h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.empty-dashboard p {
+  margin: 0 0 28px;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+  .dashboard-title {
+    font-size: 36px;
+  }
+
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-welcome {
+    margin-bottom: 35px;
+  }
+
+  .dashboard-title {
+    font-size: 30px;
+  }
+
+  .dashboard-subtitle {
+    font-size: 14px;
+  }
+
+  .new-project-btn {
+    width: 100%;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .empty-dashboard {
+    padding: 45px 20px;
+  }
+}

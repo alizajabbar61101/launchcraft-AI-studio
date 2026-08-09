@@ -17,7 +17,7 @@ function Login() {
 
     try {
       await signIn(email, password);
-      navigate("/workspace");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }
