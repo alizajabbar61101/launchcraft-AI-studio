@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { createProject } from "../../lib/projectService";
 import { addActivity } from "../../lib/activityService";
-import "../../styles/CreateProjectModal.css";
 
 function CreateProjectModal({ onClose, onProjectCreated }) {
   const [name, setName] = useState("");
@@ -23,11 +22,11 @@ function CreateProjectModal({ onClose, onProjectCreated }) {
         idea,
         audience,
       });
-      // Add activity to Supabase
-await addActivity(
-  project.id,
-  `Created project "${project.name}"`
-);
+
+      await addActivity(
+        project.id,
+        `Created project "${project.name}"`
+      );
 
       onProjectCreated(project);
       onClose();

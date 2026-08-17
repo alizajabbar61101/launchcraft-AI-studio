@@ -1,60 +1,56 @@
-import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 import Header from "../components/dashboard/Header";
 import ProjectCard from "../components/dashboard/ProjectCard";
 import RecentActivity from "../components/dashboard/RecentActivity";
 
-import {
-  getProjects,
-  deleteProject,
-} from "../lib/projectService";
-
-import "../styles/dashboard.css";
-
 function Dashboard() {
-  const { refreshSignal, openNewProject } = useOutletContext();
-  const [projects, setProjects] = useState([]);
+  const { projects, loadingProjects, handleDelete, refreshSignal } = useOutletContext();
 
-  useEffect(() => {
-    loadProjects();
-  }, [refreshSignal]);
-
-  async function loadProjects() {
-    try {
-      const data = await getProjects();
-      setProjects(data);
-    } catch (err) {
-      console.error("Failed to load projects:", err);
-    }
-  }
-
-  async function handleDelete(projectId) {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this project?"
-    );
-
-    if (!confirmed) return;
-
-    try {
-      await deleteProject(projectId);
-      setProjects((prev) => prev.filter((project) => project.id !== projectId));
-    } catch (err) {
-      console.error("Failed to delete project:", err);
-      alert("Failed to delete project.");
-    }
-  }
+  const totalProjects = projects.length;
+  const inProgress = projects.filter((p) => (p.progress || 0) > 0 && (p.progress || 0) < 100).length;
+  const avgProgress = totalProjects
+    ? Math.round(projects.reduce((sum, p) => sum + (p.progress || 0), 0) / totalProjects)
+    : 0;
 
   return (
     <>
       <Header />
 
       <section className="dashboard-welcome">
-        <h1 className="dashboard-title">Welcome back 👋</h1>
+        <h1 className="dashboard-title">Welcome back</h1>
         <p className="dashboard-subtitle">
           Continue building your next startup with AI.
         </p>
       </section>
+
+      {totalProjects > 0 && (
+        <div className="stats-row">
+          <div className="stat-card">
+            <div className="stat-icon">📁</div>
+            <div>
+              <div className="stat-value">{totalProjects}</div>
+              <div className="stat-label">{totalProjects === 1 ? "Project" : "Total Projects"}</div>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon">⚡</div>
+            <div>
+              <div className="stat-value">{inProgress}</div>
+              <div className="stat-label">In Progress</div>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon">📈</div>
+            <div>
+              <div className="stat-value">{avgProgress}%</div>
+              <div className="stat-label">Average Progress</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <section className="dashboard-projects">
         <div className="section-header">
@@ -62,19 +58,14 @@ function Dashboard() {
             <h2>Your Projects</h2>
             <p>Continue working on your products.</p>
           </div>
-
-          <button className="new-project-btn" onClick={openNewProject}>
-            + New Project
-          </button>
         </div>
 
-        {projects.length === 0 ? (
+        {loadingProjects ? (
+          <p className="loading-text">Loading your projects...</p>
+        ) : projects.length === 0 ? (
           <div className="empty-dashboard glass-card">
             <h3>No projects yet</h3>
-            <p>Create your first project and start building with AI.</p>
-            <button className="new-project-btn" onClick={openNewProject}>
-              + Create Your First Project
-            </button>
+            <p>Use the "+ New Project" button in the sidebar to start building with AI.</p>
           </div>
         ) : (
           <div className="projects-grid">

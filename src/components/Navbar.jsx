@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 function Navbar() {
 
     const [isOpen, setIsOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
         document.body.style.overflow = isOpen ? "hidden" : "";
@@ -11,6 +12,13 @@ function Navbar() {
             document.body.style.overflow = "";
         };
     }, [isOpen]);
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
 
     const closeMenu = () => {
         setIsOpen(false);
@@ -24,7 +32,7 @@ function Navbar() {
     ];
 
     return (
-        <header className="glass-header">
+        <header className={`glass-header ${scrolled ? "scrolled" : ""}`}>
 
             {/* Logo */}
             <Link to="/" className="logo-mark">
@@ -102,7 +110,7 @@ function Navbar() {
                     to="/login"
                     onClick={closeMenu}
                 >
-                    <button className="Login-btn">
+                    <button className="login-btn">
                         Login
                     </button>
                 </Link>

@@ -1,5 +1,6 @@
 import heroBackground from "../assets/hero-background.svg";
 
+import ScrollProgress from "../components/ScrollProgress";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Trusted from "../components/Trusted";
@@ -13,6 +14,8 @@ import "../styles/landing.css";
 function Landing() {
   return (
     <div className="app">
+
+      <ScrollProgress />
 
       <div
         className="global-bg"

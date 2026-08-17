@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-
 import { getActivities } from "../../lib/activityService";
-
-import "../../styles/RecentActivity.css";
 
 function RecentActivity({ refreshKey }) {
 

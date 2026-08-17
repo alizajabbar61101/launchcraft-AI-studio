@@ -1,23 +1,26 @@
 import { useOutletContext } from "react-router-dom";
-import ProjectCard from "./ProjectCard";
+import ProjectCard from "../components/dashboard/ProjectCard";
 
-function MyProjects() {
+function ProgressPage() {
   const { projects, loadingProjects, handleDelete } = useOutletContext();
 
   if (loadingProjects) {
     return (
       <div className="my-projects-page">
-        <p className="loading-text">Loading your projects...</p>
+        <p className="loading-text">Loading progress...</p>
       </div>
     );
   }
+
+  // Most progress first — reads like a quick "what's closest to done" view
+  const sorted = [...projects].sort((a, b) => (b.progress || 0) - (a.progress || 0));
 
   return (
     <div className="my-projects-page">
       <div className="my-projects-header">
         <div>
-          <h1>My Projects</h1>
-          <p>Manage and continue building your products.</p>
+          <h1>Project Progress</h1>
+          <p>See how far along each of your builds is, at a glance.</p>
         </div>
 
         <span className="project-count">
@@ -25,14 +28,14 @@ function MyProjects() {
         </span>
       </div>
 
-      {projects.length === 0 ? (
+      {sorted.length === 0 ? (
         <div className="empty-projects glass-card">
-          <h2>No projects yet</h2>
-          <p>Create your first project and start building with AI.</p>
+          <h2>Nothing to track yet</h2>
+          <p>Once you create a project, its progress will show up here.</p>
         </div>
       ) : (
         <div className="projects-grid">
-          {projects.map((project) => (
+          {sorted.map((project) => (
             <ProjectCard
               key={project.id}
               project={project}
@@ -45,4 +48,4 @@ function MyProjects() {
   );
 }
 
-export default MyProjects;
+export default ProgressPage;

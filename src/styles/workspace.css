@@ -1,114 +1,229 @@
-/* =========================================
-   WORKSPACE PAGE
-========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --blue: #7C5CFF;
+  --blue-deep: #6142E0;
+  --violet: #9B7BFF;
+  --cyan: #5EEAD4;
+
+  --bg: #F7F7FB;
+  --bg-alt: #EFEEFB;
+  --surface: rgba(255, 255, 255, 0.65);
+  --surface-solid: #FFFFFF;
+  --border: rgba(124, 92, 255, 0.14);
+  --ink: #12142B;
+  --ink-soft: #565B7A;
+  --ink-faint: #8A8FB0;
+
+  --gradient-brand: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+  --gradient-soft: linear-gradient(
+    135deg,
+    rgba(124, 92, 255, 0.14) 0%,
+    rgba(94, 234, 212, 0.12) 100%
+  );
+
+  --shadow-sm: 0 2px 10px rgba(18, 20, 43, 0.06);
+  --shadow-md: 0 12px 30px rgba(124, 92, 255, 0.16);
+  --shadow-lg: 0 24px 60px rgba(124, 92, 255, 0.20);
+
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+
+  --font-display: 'Sora', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea {
+  font-family: var(--font-body);
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
 
 .workspace-page {
   min-height: 100vh;
   width: 100%;
+  position: relative;
+  overflow: hidden;
 
-  background-image: url("/assets/hero-background.svg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(124, 92, 255, 0.12), transparent 34%),
+    radial-gradient(circle at 92% 82%, rgba(94, 234, 212, 0.10), transparent 38%),
+    linear-gradient(rgba(247, 247, 251, 0.88), rgba(247, 247, 251, 0.88)),
+    url("/assets/hero-background.svg");
+  background-size: cover, cover, cover, cover;
+  background-position: center, center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
 
   color: var(--ink);
-  position: relative;
-  overflow-x: hidden;
 
   display: flex;
   flex-direction: column;
 }
 
+/* Subtle grain — same tactile detail as landing.css */
+.workspace-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
 
-/* =========================================
+/* =========================================================
    HEADER
-========================================= */
+   ========================================================= */
 
 .workspace-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  width: 100%;
-  padding: 18px 32px;
+  width: min(1200px, calc(100% - 40px));
+  margin: 20px auto 0;
+  padding: 14px 28px;
 
-  background: rgba(255, 255, 255, 0.72);
-  border-bottom: 1px solid rgba(76, 111, 245, 0.14);
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 18px;
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: var(--shadow-sm);
 
   position: relative;
-  z-index: 10;
+  z-index: 50;
+  flex-shrink: 0;
+}
+
+.workspace-header::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124, 92, 255, 0.18), transparent);
+  pointer-events: none;
+}
+
+.workspace-header .logo-mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.workspace-header .logo-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--gradient-brand);
+  border-radius: 3px;
+  transform: rotate(45deg);
+  transition: transform 0.4s ease;
+}
+
+.workspace-header .logo-mark:hover .logo-dot {
+  transform: rotate(225deg) scale(1.2);
+}
+
+.workspace-header .logo-ai {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .logout-btn {
-  background: rgba(76, 111, 245, 0.08);
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.62);
   border: 1px solid var(--border);
-
   color: var(--ink);
-
   font-weight: 600;
   font-size: 14px;
-
   padding: 10px 18px;
-  border-radius: 12px;
-
+  border-radius: var(--radius-sm);
   cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
+/* Aligned to the same convention used on the dashboard: logout
+   hovers red (leaving), not brand-blue (interactive default) */
 .logout-btn:hover {
-  background: rgba(76, 111, 245, 0.14);
-  transform: translateY(-1px);
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-
-/* =========================================
+/* =========================================================
    CHAT WINDOW
-========================================= */
+   ========================================================= */
 
 .chat-window {
   flex: 1;
-
   display: flex;
   flex-direction: column;
-
   width: 100%;
   max-width: 900px;
-
   margin: 0 auto;
-
   padding: 24px 20px 0;
-
   position: relative;
   z-index: 2;
+  min-height: 0;
 }
-
-
-/* =========================================
-   CHAT MESSAGES
-========================================= */
 
 .chat-messages {
   flex: 1;
-
+  min-height: 0;
   overflow-y: auto;
-
   display: flex;
   flex-direction: column;
-
   gap: 16px;
-
   padding: 10px 4px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124, 92, 255, 0.22) transparent;
 }
-
-
-/* Scrollbar */
 
 .chat-messages::-webkit-scrollbar {
   width: 6px;
@@ -119,14 +234,13 @@
 }
 
 .chat-messages::-webkit-scrollbar-thumb {
-  background: rgba(76, 111, 245, 0.25);
+  background: rgba(124, 92, 255, 0.22);
   border-radius: 10px;
 }
 
-
-/* =========================================
+/* =========================================================
    MESSAGE
-========================================= */
+   ========================================================= */
 
 .message {
   display: flex;
@@ -141,77 +255,53 @@
   justify-content: flex-start;
 }
 
-
-/* =========================================
-   MESSAGE BUBBLE
-========================================= */
-
 .bubble {
   max-width: 75%;
-
   padding: 14px 18px;
-
   border-radius: 18px;
-
   font-size: 14.5px;
   line-height: 1.6;
-
   word-wrap: break-word;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-
-/* User */
+.bubble:hover {
+  transform: translateY(-1px);
+}
 
 .message.user .bubble {
-  background: var(--gradient-brand);
-  color: #ffffff;
+  background: var(--blue);
+  color: #fff;
+  border-bottom-right-radius: 5px;
+  box-shadow: var(--shadow-md);
+}
 
-  border-bottom-right-radius: 4px;
-
+.message.bot .bubble {
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  border-bottom-left-radius: 5px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   box-shadow: var(--shadow-sm);
 }
 
-
-/* Bot */
-
-.message.bot .bubble {
-  background: rgba(255, 255, 255, 0.82);
-
-  border: 1px solid rgba(76, 111, 245, 0.14);
-
-  color: var(--ink);
-
-  border-bottom-left-radius: 4px;
-
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  box-shadow: 0 8px 25px rgba(18, 20, 43, 0.06);
-}
-
-
-/* =========================================
+/* =========================================================
    TYPING INDICATOR
-========================================= */
+   ========================================================= */
 
 .typing-bubble {
   display: flex;
-
   gap: 5px;
-
   align-items: center;
-
   padding: 16px 20px;
 }
 
 .typing-bubble span {
   width: 7px;
   height: 7px;
-
   border-radius: 50%;
-
-  background: var(--ink-faint);
-
+  background: var(--blue);
   animation: typing-bounce 1.2s infinite ease-in-out;
 }
 
@@ -224,12 +314,9 @@
 }
 
 @keyframes typing-bounce {
-
-  0%,
-  60%,
-  100% {
+  0%, 60%, 100% {
     transform: translateY(0);
-    opacity: 0.5;
+    opacity: 0.45;
   }
 
   30% {
@@ -238,143 +325,118 @@
   }
 }
 
-
-/* =========================================
+/* =========================================================
    QUICK PROMPTS
-========================================= */
+   ========================================================= */
 
 .quick-chips {
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 10px;
-
   margin-bottom: 14px;
 }
 
 .quick-chip {
-  background: rgba(255, 255, 255, 0.7);
-
+  background: rgba(255, 255, 255, 0.62);
   border: 1px solid var(--border);
-
-  color: var(--ink);
-
+  color: var(--ink-soft);
   font-size: 13.5px;
   font-weight: 500;
-
   padding: 10px 16px;
-
   border-radius: 999px;
-
   cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .quick-chip:hover {
   transform: translateY(-2px);
-
-  background: rgba(255, 255, 255, 0.9);
+  background: #fff;
+  border-color: rgba(124, 92, 255, 0.35);
+  color: var(--blue);
 }
 
-
-/* =========================================
+/* =========================================================
    CHAT INPUT
-========================================= */
+   ========================================================= */
 
 .chat-input-bar {
   display: flex;
-
   gap: 12px;
-
   width: 100%;
-
   padding: 16px 0 24px;
-
-  border-top: 1px solid rgba(76, 111, 245, 0.12);
+  border-top: 1px solid rgba(124, 92, 255, 0.12);
 }
 
 .chat-input-bar input {
   flex: 1;
-
   min-width: 0;
-
   border: 1px solid var(--border);
-
   border-radius: 14px;
-
   padding: 14px 18px;
-
   font-size: 14.5px;
-
-  font-family: var(--font-body);
-
-  background: rgba(255, 255, 255, 0.82);
-
+  background: rgba(255, 255, 255, 0.68);
   color: var(--ink);
-
   outline: none;
-
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .chat-input-bar input:focus {
   border-color: var(--blue);
-
-  box-shadow: 0 0 0 3px rgba(76, 111, 245, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.10), var(--shadow-sm);
 }
 
 .chat-input-bar input::placeholder {
   color: var(--ink-faint);
 }
 
-
-/* Send */
-
 .send-btn {
+  position: relative;
+  overflow: hidden;
   flex-shrink: 0;
-
-  background: var(--gradient-brand);
-
-  color: #ffffff;
-
+  background: var(--blue);
+  color: #fff;
   border: none;
-
   font-weight: 600;
-
   font-size: 14.5px;
-
   padding: 0 26px;
-
   border-radius: 14px;
-
   cursor: pointer;
-
   box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
 
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+.send-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.send-btn:hover::before {
+  left: 130%;
 }
 
 .send-btn:hover {
-  transform: translateY(-1px);
-
+  background: var(--blue-deep);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
 
-
-/* =========================================
+/* =========================================================
    MARKDOWN
-========================================= */
+   ========================================================= */
 
 .markdown-content {
   line-height: 1.8;
@@ -386,8 +448,8 @@
 .markdown-content h4 {
   margin-top: 22px;
   margin-bottom: 12px;
-
   color: var(--ink);
+  font-family: var(--font-display);
 }
 
 .markdown-content p {
@@ -396,7 +458,6 @@
 
 .markdown-content ul {
   margin-bottom: 15px;
-
   padding-left: 22px;
 }
 
@@ -410,52 +471,50 @@
 
 .markdown-content hr {
   margin: 20px 0;
-
   border: none;
-
-  border-top: 1px solid rgba(76, 111, 245, 0.14);
+  border-top: 1px solid rgba(124, 92, 255, 0.14);
 }
 
-
-/* =========================================
+/* =========================================================
    BLUEPRINT CARD
-========================================= */
+   ========================================================= */
 
 .blueprint-card {
   width: 100%;
   max-width: 90%;
-
-  background: rgba(255, 255, 255, 0.86);
-
+  background: rgba(255, 255, 255, 0.68);
   border: 1px solid var(--border);
-
   border-radius: var(--radius-md);
-
   padding: 24px;
-
   box-shadow: var(--shadow-md);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  position: relative;
+  overflow: hidden;
+}
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+.blueprint-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-brand);
+  opacity: 0.9;
 }
 
 .blueprint-label {
   font-size: 11px;
-
   font-weight: 700;
-
   text-transform: uppercase;
-
   letter-spacing: 0.05em;
-
   color: var(--blue-deep);
 }
 
 .blueprint-card h3 {
   font-size: 20px;
-
   font-weight: 700;
-
   margin: 6px 0 18px;
 }
 
@@ -465,167 +524,132 @@
 
 .blueprint-section h4 {
   font-size: 13px;
-
   font-weight: 700;
-
   color: var(--ink-faint);
-
   text-transform: uppercase;
-
   letter-spacing: 0.04em;
-
   margin-bottom: 8px;
 }
 
 .blueprint-section p {
   font-size: 14px;
-
   color: var(--ink-soft);
-
   line-height: 1.6;
 }
 
 .blueprint-section ul {
   margin: 0;
-
   padding-left: 18px;
-
   display: flex;
-
   flex-direction: column;
-
   gap: 6px;
 }
 
 .blueprint-section li {
   font-size: 14px;
-
   color: var(--ink-soft);
 }
 
-
-/* =========================================
+/* =========================================================
    TECHNOLOGY CHIPS
-========================================= */
+   ========================================================= */
 
 .chip-row {
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 8px;
 }
 
 .chip {
   background: var(--gradient-soft);
-
   border: 1px solid var(--border);
-
   color: var(--ink);
-
   font-size: 12.5px;
-
   font-weight: 600;
-
   padding: 6px 12px;
-
   border-radius: 999px;
 }
 
-
-/* =========================================
+/* =========================================================
    ROADMAP
-========================================= */
+   ========================================================= */
 
 .mini-roadmap {
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 10px;
 }
 
 .mini-roadmap-step {
-  background: var(--gradient-soft);
-
+  background: rgba(255, 255, 255, 0.58);
   border: 1px solid var(--border);
-
-  border-radius: 12px;
-
+  border-radius: var(--radius-sm);
   padding: 10px 14px;
-
   display: flex;
-
   flex-direction: column;
-
   gap: 2px;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.mini-roadmap-step:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 92, 255, 0.30);
+  background: #fff;
 }
 
 .mini-roadmap-phase {
   font-size: 13px;
-
   font-weight: 700;
-
   color: var(--ink);
 }
 
 .mini-roadmap-weeks {
   font-size: 11.5px;
-
   color: var(--ink-faint);
 }
 
-
-/* =========================================
+/* =========================================================
    RESET BUTTON
-========================================= */
+   ========================================================= */
 
 .reset-btn {
   margin-top: 20px;
-
   width: 100%;
-
-  background: rgba(76, 111, 245, 0.08);
-
+  background: rgba(255, 255, 255, 0.58);
   border: 1px solid var(--border);
-
   color: var(--ink);
-
   font-weight: 600;
-
   font-size: 14px;
-
   padding: 12px;
-
-  border-radius: 12px;
-
+  border-radius: var(--radius-sm);
   cursor: pointer;
-
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 
 .reset-btn:hover {
-  background: rgba(76, 111, 245, 0.14);
+  background: #fff;
+  border-color: rgba(124, 92, 255, 0.32);
+  color: var(--blue);
+  transform: translateY(-1px);
 }
 
-
-/* =========================================
+/* =========================================================
    MOBILE
-========================================= */
+   ========================================================= */
 
 @media (max-width: 720px) {
-
   .workspace-header {
+    width: calc(100% - 24px);
+    margin-top: 12px;
     padding: 14px 18px;
   }
 
-  .logo-mark {
+  .workspace-header .logo-mark {
     font-size: 17px;
   }
 
   .logout-btn {
     padding: 8px 14px;
-
     font-size: 13px;
   }
 
@@ -635,9 +659,7 @@
 
   .bubble {
     max-width: 88%;
-
     padding: 12px 15px;
-
     font-size: 14px;
   }
 
@@ -647,31 +669,26 @@
 
   .quick-chip {
     font-size: 12.5px;
-
     padding: 8px 13px;
   }
 
   .chat-input-bar {
     gap: 8px;
-
     padding: 12px 0 18px;
   }
 
   .chat-input-bar input {
     padding: 12px 14px;
-
     font-size: 14px;
   }
 
   .send-btn {
     padding: 0 18px;
-
     font-size: 13.5px;
   }
 
   .blueprint-card {
     max-width: 100%;
-
     padding: 18px;
   }
 
@@ -698,29 +715,22 @@
 
   .chip {
     font-size: 12px;
-
     padding: 5px 10px;
   }
 }
 
-
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
 @media (max-width: 420px) {
-
   .workspace-header {
+    width: calc(100% - 16px);
     padding: 12px 14px;
   }
 
-  .logo-mark {
+  .workspace-header .logo-mark {
     font-size: 15px;
   }
 
   .bubble {
     max-width: 92%;
-
     font-size: 13.5px;
   }
 

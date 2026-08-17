@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { getActivities } from "../lib/activityService";
-import "../styles/ActivityPage.css";
 
 function ActivityPage() {
   const navigate = useNavigate();
@@ -53,9 +52,6 @@ function ActivityPage() {
               role="button"
               tabIndex={0}
               onClick={() => {
-                // NOTE: this assumes activityService returns project_id
-                // on each activity row. If it doesn't yet, add it to the
-                // Supabase select in getActivities() / addActivity().
                 if (activity.project_id) {
                   navigate(`/workspace/${activity.project_id}`);
                 }
