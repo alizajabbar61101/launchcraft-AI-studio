@@ -92,4 +92,4 @@ function DashboardLayout() {
   );
 }
 
-export default DashboardLayout;
+export default Dashboardlayout;
