@@ -11,7 +11,7 @@ import ActivityPage from "./pages/ActivityPage";
 import ProgressPage from "./pages/ProgressPage";
 import Settings from "./pages/Settings";
 import Workspace from "./pages/Workspace";
-import DashboardLayout from "./components/layout/DashboardLayout";
+import DashboardLayout from "./components/layout/Dashboardlayout";
 
 function App() {
   return (
