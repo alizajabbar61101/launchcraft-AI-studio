@@ -110,10 +110,6 @@ The app will be available at `http://localhost:5173` (default Vite port).
 | `/settings` | Settings |
 | `/workspace/:projectId` | AI Workspace |
 
-##  Known Gaps
-
-- Settings page (profile save, notification toggles, account deletion) is UI-complete but not yet wired to backend mutations
-- Confirm the `activities` table includes a `project_id` field, used for linking activity entries back to their project
 
 ##  License
 
