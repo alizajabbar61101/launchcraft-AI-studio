@@ -19,11 +19,9 @@ app.get("/", (req, res) => {
   res.send("LaunchCraft AI Backend is running 🚀");
 });
 
-
 // AI Analyze Route
 app.post("/api/analyze", async (req, res) => {
   try {
-
     const { idea } = req.body;
 
     if (!idea) {
@@ -33,8 +31,7 @@ app.post("/api/analyze", async (req, res) => {
       });
     }
 
-
-   const prompt = `
+    const prompt = `
 You are an expert Product Manager and Software Architect.
 
 Analyze the following product idea:
@@ -110,37 +107,26 @@ Never return JSON.
 Use headings, bullet points and tables.
 `;
 
-
     const response = await ai.models.generateContent({
-      model: "models/gemini-3.1-flash-lite",
+      model: "gemini-2.5-flash", // Replaced with a production-ready stable model name
       contents: prompt,
     });
 
-
     res.json({
       success: true,
-      result: response.text,
+      result: response.text, // Updated: the @google/genai SDK uses .text directly
     });
 
-
   } catch (error) {
-
     console.error("Gemini Error:", error);
-    console.error("Error Message:", error.message);
-
-    if (error.stack) {
-      console.error(error.stack);
-    }
-
-
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
       error: error.message,
     });
-
   }
 });
+
 // AI Chat Route
 app.post("/api/chat", async (req, res) => {
   try {
@@ -178,19 +164,17 @@ Your job is to:
 `;
 
     const response = await ai.models.generateContent({
-      model: "models/gemini-3.1-flash-lite",
+      model: "gemini-2.5-flash", // Replaced with a production-ready stable model name
       contents: prompt,
     });
 
     res.json({
       success: true,
-      result: response.text,
+      result: response.text, // Updated: the @google/genai SDK uses .text directly
     });
 
   } catch (error) {
     console.error("Gemini Chat Error:", error);
-    console.error("Error Message:", error.message);
-
     res.status(500).json({
       success: false,
       message: "Unable to process chat message.",
@@ -199,9 +183,11 @@ Your job is to:
   }
 });
 
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Avoid port conflicts or continuous listening loops in Vercel production
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+module.exports = app;
